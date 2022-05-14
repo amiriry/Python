@@ -1,0 +1,73 @@
+#!/usr/bin/python
+import sys
+import clipboard
+import json
+
+SAVED_DATA = "/tmp/clipboard.json"
+
+def empty_file(file_path):
+   with open(file_path, "w") as f:
+      json.dump({}, f)
+
+def save_data(filepath, data):
+   with open(filepath, "w") as f:
+      json.dump(data, f)
+
+def load_data(filepath):
+   try:
+      with open(filepath, "r") as f:
+         data = json.load(f)
+         return data
+   except:
+      return {}
+
+def print_error():
+  print("Usage:\n"
+       " save - add current clipboard content to clipboardlist\n"
+       " load - choose a key and load its contet to clipboard\n"
+       " list - list all the keys and their content\n"
+       " rm - remove all contest of json clipboard")
+
+if len(sys.argv) == 2 or len(sys.argv) == 3:
+   command = sys.argv[1]
+   data = load_data(SAVED_DATA)
+
+   if command == "save":
+      if len(sys.argv) == 3:
+         key = sys.argv[2]
+      else:
+         key = input("Enter a key:")
+
+      value = clipboard.paste().replace("\n", "")
+      if value in data.values():
+          print("Value \"" + value + "\" already exists so NOT saved again")
+          exit
+      else:
+          data[key] = value
+          save_data(SAVED_DATA, data)
+          print("Data saved in clipboard.json")
+   elif command == "load":
+      for k,v in data.items():
+         print(k + ":", v)
+      key = input("Enter a key:")
+      if key in data:
+         clipboard.copy(data[key])
+         print("data is in clipboard")
+      else:
+         print("Key does not exist")
+   elif command == "list":
+      for k,v in data.items():
+        print(k + ":", v)
+   elif command == "insert":
+      key = input("insert key:")
+      value = input("insert value:")
+      data[key] = value
+      save_data(SAVED_DATA, data)
+   elif command == "rm":
+      empty_file(SAVED_DATA)
+      #with open("/tmp/clipboard.json", "w") as f:
+      #   json.dumps({})
+   else:
+      print_error()
+else:
+    print_error()
