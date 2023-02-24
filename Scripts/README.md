@@ -10,7 +10,6 @@ You give it a file name, with whatever type of image you want,<br>
 It asks you on what base you want the ration, hieght or width.<br>
 Enter the number you want, and it will find the width/height according to what you chose. <br>
 It will also change the type to png.<br>
-<hr>
 
 ## zxclipboard
 Use it in linux as a command after pipeline(|) and it will take whatever output comes from the command<br>
