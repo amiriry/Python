@@ -5,6 +5,10 @@ ratio=width/hieght
 
 base=input("calculate by h|w:")
 if base not in ("w", "h"):
+    print("kaki")
+    print("kaki")
+    print("kaki")
+    print("kaki")
     print("only h or w are exceptable")
 else:
     if base == 'h':
